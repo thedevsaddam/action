@@ -24,7 +24,7 @@ Add the following step to a GitHub Action job:
 
 ```yaml
 - name: Run reviewpad action
-  uses: reviewpad/action@v0.0.1
+  uses: reviewpad/action@v0.0.2
 ```
 
 
@@ -38,7 +38,7 @@ If you want to use more advanced features such as the auto-merge feature, we rec
 
 ```yaml
 - name: Run reviewpad action
-  uses: reviewpad/action@v0.0.1
+  uses: reviewpad/action@v0.0.2
   with:
     token: ${{ secrets.GH_TOKEN }}
 ```

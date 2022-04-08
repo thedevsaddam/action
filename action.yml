@@ -1,15 +1,15 @@
-name: 'Reviewpad Action'
-description: 'Reviewpad Action automates pull requests using the Revy configuration located at revy.yml'
+name: "Reviewpad Action"
+description: "Reviewpad Action automates pull requests using the Revy configuration located at revy.yml"
 branding:
-  icon: 'send'
-  color: 'blue'
+  icon: "send"
+  color: "blue"
 inputs:
   repository:
-    description: 'Repository name with owner.'
+    description: "Repository name with owner."
     default: ${{ github.repository }}
     required: false
   prnumber:
-    description: 'Pull request number.'
+    description: "Pull request number."
     default: ${{ github.event.pull_request.number }}
     required: false
   token:
@@ -21,5 +21,5 @@ inputs:
     default: ${{ github.token }}
     required: false
 runs:
-  using: 'docker'
-  image: 'docker://exploredev/action:v0.0.1'
+  using: "docker"
+  image: "docker://exploredev/action:v0.0.2"
