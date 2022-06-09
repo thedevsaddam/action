@@ -5,8 +5,8 @@ go 1.18
 require (
 	github.com/explore-dev/atlas-common/go v0.0.0-20220509090605-a2bc1701df68
 	github.com/google/go-github/v42 v42.0.0
-	github.com/reviewpad/reviewpad v0.0.0-20220608111215-f23e7b3d5547
-	github.com/reviewpad/reviewpad-premium v0.0.0-20220608111911-7f241d819af7
+	github.com/reviewpad/reviewpad v0.0.0-20220609113725-e22da3e09a88
+	github.com/reviewpad/reviewpad-premium v0.0.0-20220609114012-924df8a15303
 	github.com/shurcooL/githubv4 v0.0.0-20220520033151-0b4e3294ff00
 	golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
 	google.golang.org/grpc v1.40.0
