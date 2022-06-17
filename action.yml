@@ -1,5 +1,5 @@
 name: "Reviewpad Action"
-description: "Reviewpad Action automates pull requests using the Revy configuration located at revy.yml"
+description: "Reviewpad Action automates pull requests workflows using the Reviewpad configuration located at reviewpad.yml"
 branding:
   icon: "send"
   color: "blue"
