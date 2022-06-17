@@ -1,8 +1,52 @@
 # Reviewpad GitHub Action
 
-This action runs the docker image [exploredev/action](https://hub.docker.com/repository/docker/exploredev/action).
+**Current Stable Version**: v1.x Series
 
-It reads and automates the pull request workflows specified in the `revy.yml` file at the root of the GitHub repository.
+This action runs the docker image [reviewpad/action](https://hub.docker.com/repository/docker/reviewpad/action).
+
+The docker image is automatically pushed to Docker Hub on every commit to the main branch.
+
+It reads and automates the pull request workflows specified in the `reviewpad.yml` file at the root of your GitHub repository.
+
+These workflows can be used to automatically label, assign reviewers, comment, merge and close pull requests.
+
+For example, the following `reviewpad.yml` file:
+
+```yaml
+api-version: reviewpad.com/v1.x
+
+rules:
+  isSmall:
+    kind: patch
+    description: small pull request
+    spec: $size() <= 50
+
+  isMedium:
+    kind: patch
+    description: medium-sized pull request
+    spec: $size() > 50 && $size() <= 150
+
+  isLarge:
+    kind: patch
+    description: large-sized pull request
+    spec: $size() > 150
+
+workflows:
+  - name: label-pull-request-with-size
+    description: Label pull request with size
+    if:
+      - rule: isSmall
+        extra-actions:
+          - $addLabel("small")
+      - rule: isMedium
+        extra-actions:
+          - $addLabel("medium")
+      - rule: isLarge
+        extra-actions:
+          - $addLabel("large")
+```
+
+Specifies a workflow to automatically add a label based on the size of the pull request.
 
 For more information, check out the [official documentation](https://docs.reviewpad.com).
 
@@ -24,7 +68,7 @@ Add the following step to a GitHub Action job:
 
 ```yaml
 - name: Run reviewpad action
-  uses: reviewpad/action@v0.0.4
+  uses: reviewpad/action@v1.x
 ```
 
 
@@ -38,7 +82,7 @@ If you want to use more advanced features such as the auto-merge feature, we rec
 
 ```yaml
 - name: Run reviewpad action
-  uses: reviewpad/action@v0.0.4
+  uses: reviewpad/action@v1.x
   with:
     token: ${{ secrets.GH_TOKEN }}
 ```
