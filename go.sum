@@ -149,8 +149,8 @@ github.com/opentracing/opentracing-go v1.1.0/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFSt
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
-github.com/reviewpad/reviewpad v1.0.1-0.20220617145418-2c5c496fdcfd h1:q6Ocu4MKN0Y3uJ8y4jPRtvEdoN0/v3rIuVu2lGyum0Y=
-github.com/reviewpad/reviewpad v1.0.1-0.20220617145418-2c5c496fdcfd/go.mod h1:9XMpGXLegfrXldB7LIOcUMxKOuAG1EGSZN7pafp2YuQ=
+github.com/reviewpad/reviewpad v1.0.1-0.20220620105730-a0850eb6ee86 h1:H6/f1lOmZzgtV+KtcW3nfhaoVFJizFCgpmL3NOpOtuI=
+github.com/reviewpad/reviewpad v1.0.1-0.20220620105730-a0850eb6ee86/go.mod h1:dF4TSbXtUi7fs2ycw2oSM1mOI9qAwUSrvlvi06YjQ/Q=
 github.com/reviewpad/reviewpad-premium v1.0.0 h1:eHRaOmnE6fYEk2dKgfxnvhuaKYQ4gB0ozQVYgGzLxbg=
 github.com/reviewpad/reviewpad-premium v1.0.0/go.mod h1:WbnXCiFITWLAMOXxmoacpzdVF2hhZ4KXilCQ7a/PAhA=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
