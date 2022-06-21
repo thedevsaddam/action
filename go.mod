@@ -1,12 +1,12 @@
-module github.com/reviewpad/action
+module github.com/reviewpad/action/v2
 
 go 1.18
 
 require (
 	github.com/explore-dev/atlas-common/go v0.0.0-20220509090605-a2bc1701df68
 	github.com/google/go-github/v42 v42.0.0
-	github.com/reviewpad/reviewpad v1.2.1-0.20220621132136-18598378a4ff
-	github.com/reviewpad/reviewpad-premium v1.2.1-0.20220621132332-6b93cf0a014d
+	github.com/reviewpad/reviewpad-premium/v2 v2.0.0
+	github.com/reviewpad/reviewpad/v2 v2.0.0
 	github.com/shurcooL/githubv4 v0.0.0-20220520033151-0b4e3294ff00
 	golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
 	google.golang.org/grpc v1.40.0
