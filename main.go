@@ -143,7 +143,7 @@ func main() {
 	case engine.PROFESSIONAL_EDITION:
 		err = reviewpad_premium.Run(ctx, client, clientGQL, collectorClient, semanticClient, ghPullRequest, file, false)
 	default:
-		err = reviewpad.Run(ctx, client, clientGQL, collectorClient, ghPullRequest, file, false)
+		_, err = reviewpad.Run(ctx, client, clientGQL, collectorClient, ghPullRequest, file, false)
 	}
 
 	if err != nil {
