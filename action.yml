@@ -1,5 +1,5 @@
 name: "Reviewpad Action"
-description: "Reviewpad Action automates pull requests workflows using the Reviewpad configuration located at reviewpad.yml"
+description: "Reviewpad Action automates pull requests workflows using the Reviewpad configuration language."
 branding:
   icon: "send"
   color: "blue"
@@ -22,4 +22,4 @@ inputs:
     required: false
 runs:
   using: "docker"
-  image: "docker://reviewpad/action:v1.x"
+  image: "docker://reviewpad/action:v2.x"
