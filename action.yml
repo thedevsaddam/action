@@ -4,9 +4,21 @@ branding:
   icon: "send"
   color: "blue"
 inputs:
-  event:
-    description: "GitHub event"
-    default: ${{ toJSON(github) }}
+  repository:
+    description: "Repository name with owner."
+    default: ${{ github.repository }}
+    required: false
+  prnumber:
+    description: "Pull request number."
+    default: ${{ github.event.pull_request.number }}
+    required: false
+  token:
+    description: >
+      Personal access token (PAT) used to fetch information from the repository. 
+      The PAT is configured with the local git config, which enables your scripts 
+      to run authenticated git commands. The post-job step removes the PAT.
+      We recommend using a service account with the least permissions necessary.
+    default: ${{ github.token }}
     required: false
 runs:
   using: "docker"
