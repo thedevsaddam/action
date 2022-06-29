@@ -147,7 +147,11 @@ func main() {
 	}
 
 	if err != nil {
-		log.Print(err.Error())
+		if file.IgnoreErrors {
+			log.Print(err.Error())
+		} else {
+			log.Fatal(err.Error())
+		}
 		return
 	}
 }
