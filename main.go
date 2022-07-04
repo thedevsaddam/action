@@ -78,6 +78,7 @@ func getEnv() (*Env, error) {
 	}, nil
 }
 
+// reviewpad-an: critical
 func main() {
 	env, err := getEnv()
 	if err != nil {

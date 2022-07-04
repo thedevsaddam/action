@@ -1,0 +1,206 @@
+api-version: reviewpad.com/v2.x
+
+mode: silent
+edition: professional
+
+labels:
+  small:
+    description: Small changes
+    # color is the hexadecimal color code for the label, without the leading #.
+    color: "294b69"
+  medium:
+    description: Medium changes
+    color: "a8c3f7"
+  large:
+    description: Large changes
+    color: "8a2138"
+  external-contribution:
+    description: External contribution
+    color: "8a2151"
+  critical:
+    description: Modifications to critical changes
+    color: "294b75"
+  modifies-license:
+    description: Modifications to the license
+    color: "294a70"
+  ship:
+    description: Ship mode
+    color: "76dbbe"
+
+groups:
+  - name: owners
+    description: Group of owners
+    kind: developers
+    spec: '["marcelosousa", "ferreiratiago"]'
+
+  - name: official-contributors
+    description: Official contributors
+    kind: developers
+    spec: '["marcelosousa", "ferreiratiago", "shay2025"]'
+
+rules:
+  - name: is-small
+    kind: patch
+    description: small pull request
+    spec: '$size() <= 30'
+
+  - name: is-medium
+    kind: patch
+    description: medium-sized pull request
+    spec: '$size() > 30 && $size() <= 100'
+
+  - name: is-large
+    kind: patch
+    description: large-sized pull request
+    spec: '$size() > 100'
+
+  - name: ship-pull-request-auto-merge-condition
+    kind: patch
+    description: owners of pull requests with ship in the title
+    spec: '$contains($title(), "[ship]: ") && $isElementOf($author(), $group("owners"))'
+
+  - name: is-first-time-contributor
+    kind: patch
+    description: First pull request created
+    spec: '$totalCreatedPullRequests($author()) == 1'
+
+  - name: touches-license
+    kind: patch
+    description: modifies the LICENSE file
+    spec: '$hasFileName("LICENSE")'
+
+  - name: touches-more-than-license
+    kind: patch
+    description: modifies the LICENSE file and other files
+    spec: '$rule("touches-license") && $fileCount() > 1'
+
+  - name: touches-license-by-non-owner
+    kind: patch
+    description: non-owner modifies the LICENSE file
+    spec: '$rule("touches-license") && !$isElementOf($author(), $group("owners"))'
+
+  - name: changes-critical-functions
+    kind: patch
+    description: Changes to functions considered critical
+    # This spec uses a special built-in that understand which functions were commented
+    # with "reviewpad-an: critical"
+    spec: '$hasAnnotation("critical")'
+
+  - name: pull-request-without-linked-issue
+    kind: patch
+    description: Pull request without linked issue
+    spec: '!$hasLinkedIssues()'
+
+  - name: changes-to-main-file
+    description: Changes to the main file
+    kind: patch
+    spec: '$hasFileName("main.go")'
+
+  - name: commit-count-is-high
+    kind: patch
+    description: Check if the pull request has more than 5 commits
+    spec: '$commitCount() > 5'
+
+  - name: does-not-have-linear-history
+    kind: patch
+    description: Pull request does not have a linear history
+    spec: '!$hasLinearHistory()'
+
+  - name: authored-by-official-contributors
+    kind: patch
+    description: Pull request was authored by official contributors
+    spec: '$isElementOf($author(), $group("official-contributors"))'
+
+  - name: authored-by-external-contributors
+    kind: patch
+    description: Pull request was authored by external contributors
+    spec: '!$rule("authored-by-official-contributors")'
+
+workflows:
+  - name: lint-workflow
+    description: Lint the pull request
+    # always-run is a boolean property to control if this workflow should always be executed
+    always-run: true
+    if:
+      - rule: empty-description
+        # if 'empty-description' is true, the 'extra-actions' property will be 
+        # executed after the main actions
+        extra-actions:
+          - '$error("Pull request has an empty description.")'
+      - rule: pull-request-without-linked-issue
+        extra-actions:
+          - '$error("Pull requests should have a linked issue")'
+      - rule: commit-count-is-high
+        extra-actions:
+          - '$info("Every pull request should not have more than 2 commits. this pull request has more than 5!")'
+      - rule: does-not-have-linear-history
+        extra-actions:
+          - '$error("This pull does not seem to have a linear history.")'
+
+  - name: add-label-with-size
+    description: Add label with size of the pull request
+    always-run: true
+    if:
+      - rule: is-small
+        extra-actions:
+          - '$addLabel("small")'
+      - rule: is-medium
+        extra-actions:
+          - '$addLabel("medium")'
+      - rule: is-large
+        extra-actions:
+          - '$addLabel("large")'
+
+  - name: unauthorized-license-workflow
+    description: Protect unauthorized modifications to the LICENSE
+    if:
+      - rule: touches-license-by-non-owner
+    then:
+      - '$error("Sorry, you are not authorized to make these changes")'
+      - '$close()'
+
+  - name: license-workflow
+    description: Protect modifications to the LICENSE
+    if:
+      - rule: touches-license
+      - rule: touches-more-than-license
+        extra-actions:
+          - '$warn("This pull request should only modify the LICENSE!")'
+    then:
+      - '$addLabel("modifies-license")'
+      - '$assignReviewer($group("owners"), 1)'
+
+  - name: auto-merge-owner-pull-requests
+    description: auto merge pull requests
+    if:
+      - rule: ship-pull-request-auto-merge-condition
+    then:
+      - '$addLabel("ship")'
+      - '$merge("rebase")'
+
+  - name: changes-to-critical-code
+    description: changes to critical code
+    always-run: true
+    if:
+      - rule: changes-critical-functions
+      - rule: changes-to-main-file
+    then:
+      - '$addLabel("critical")'
+      - '$assignReviewer($group("owners"), 1)'
+      - '$info("@marcelosousa: you are being notified because critical code was modified")'
+
+  - name: default-review-process
+    description: default review process
+    # only runs if the pull request is not automatically merged
+    if:
+      - rule: is-first-time-contributor
+        extra-actions:
+          - '$commentOnce("Thank you so much for your first contribution!")'
+      - rule: authored-by-official-contributors
+        extra-actions: 
+          - '$assignReviewer($group("owners"), 1)'
+      - rule: authored-by-external-contributors
+        extra-actions:
+          - '$addLabel("external-contribution")'
+
+
