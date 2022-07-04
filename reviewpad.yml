@@ -54,6 +54,11 @@ rules:
     description: large-sized pull request
     spec: '$size() > 100'
 
+  - name: empty-description
+    kind: patch
+    description: Pull request has an empty description
+    spec: '$title() == ""'
+
   - name: ship-pull-request-auto-merge-condition
     kind: patch
     description: owners of pull requests with ship in the title
